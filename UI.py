@@ -16,7 +16,6 @@ class Ui_MainWindow:
         # CONFIG WINDOW
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 700)
-        MainWindow.setStyleSheet("background-color: #ffffff;")
 
         # CREATE
         ## Widgets
@@ -104,14 +103,24 @@ class Ui_MainWindow:
         self.leftLayout.addWidget(self.labelSettings)
 
     def rightwidget_config(self):
-        self.labelTitle1 = QtWidgets.QLabel("Недавние")
-        self.labelTitle2 = QtWidgets.QLabel("Популярные")
-        self.labelTitle3 = QtWidgets.QLabel("Все игры")
+        self.recently = QtWidgets.QHBoxLayout()
+        self.popular = QtWidgets.QHBoxLayout()
+        self.all_games = QtWidgets.QHBoxLayout()
 
-        self.rightLayout.addWidget(self.labelTitle1, 0) # right
-        self.rightLayout.addWidget(self.labelTitle2, 0) # right
-        self.rightLayout.addWidget(self.labelTitle3, 0) # right
+        self.rightLayout.addLayout(self.recently) # right
+        self.rightLayout.addLayout(self.popular) # right
+        self.rightLayout.addLayout(self.all_games) # right
 
+        self.create_cart(self.popular, "asdasd")
+        self.create_cart(self.recently, "ASDFDSAFSADF")
+        self.create_cart(self.all_games, "1")
+
+    def create_cart(self, layout, name):
+        widget = QtWidgets.QWidget(self.rightwidget, objectName=name)
+        widget.setStyleSheet("background-color: #bbbbbb")
+        widget.setFixedWidth(200)
+        widget.setFixedHeight(100)
+        layout.addWidget(widget)
 
     # def main_config(self):
 
