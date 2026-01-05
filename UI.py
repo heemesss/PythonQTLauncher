@@ -16,6 +16,15 @@ class Ui_MainWindow:
         # CONFIG WINDOW
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 700)
+        MainWindow.setStyleSheet("""
+        .QLabel{
+        font-family: Anonymous Pro;
+font-style: Regular;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+}
+        .QLayout{margin:0; padding:0;}""")
 
         # CREATE
         ## Widgets
@@ -72,7 +81,7 @@ class Ui_MainWindow:
         self.headerLayout.addWidget(self.lavelAvatar)
 
     def leftwidget_config(self):
-        self.leftwidget.setStyleSheet("background-color: #aaaadd")
+        self.leftwidget.setStyleSheet("background-color: #D5E6FF")
         self.leftwidget.setFixedWidth(75)
 
         # Home
@@ -103,61 +112,46 @@ class Ui_MainWindow:
         self.leftLayout.addWidget(self.labelSettings)
 
     def rightwidget_config(self):
-        recently_layout = QHBoxLayout()
-        recently_widget = QtWidgets.QWidget()
-        recently_widget.setLayout(recently_layout)
-        self.create_cart(recently_layout, "1")
-        self.create_cart(recently_layout, "1")
-        self.create_cart(recently_layout, "1")
-        self.create_cart(recently_layout, "1")
-        self.create_cart(recently_layout, "1")
-        self.create_cart(recently_layout, "1")
+        self.recently_widget = QtWidgets.QWidget()
+        self.recently_layout = QHBoxLayout(self.recently_widget)
+        self.recently_scroll = QScrollArea()
 
-        recently_scroll = QScrollArea()
-        recently_scroll.setWidget(recently_widget)
-        recently_scroll.setStyleSheet("background: #555555")
-        recently_scroll.setWidgetResizable(False)
+        for i in range(10):
+            self.create_cart(self.recently_layout, "1")
 
-        self.rightLayout.addWidget(recently_scroll)
+        self.rightLayout.addWidget(self.recently_scroll)
+        self.recently_scroll.setWidget(self.recently_widget) # must be after add to cart
+        self.recently_scroll.setStyleSheet("background: #555555")
 
-        # self.recently_widget = QtWidgets.QWidget()
-        # self.rightLayout.addWidget(self.recently_widget)
-        # recently_layout = QHBoxLayout(self.recently_widget)
-        # recently_scroll = QScrollArea(self.recently_widget)
-        #
-        # recently_scroll.setWidgetResizable(False)
-        # recently_scroll.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        # recently_scroll.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-        #
-        #
-        # self.popular_widget = QtWidgets.QWidget()
-        # self.rightLayout.addWidget(self.popular_widget)
-        # popular_layout = QHBoxLayout(self.popular_widget)
-        # popular_scroll = QScrollArea(self.popular_widget)
-        #
-        # self.all_games_widget = QtWidgets.QWidget()
-        # # self.all_games_widget.setStyleSheet("background-color: #555555")
-        # self.rightLayout.addWidget(self.all_games_widget)
-        # all_games_layout = QHBoxLayout(self.all_games_widget)
-        # all_games_scroll = QScrollArea()
-        # all_games_scroll.setStyleSheet("background-color: #555555")
-        # all_games_scroll.setWidget(self.all_games_widget)
-        #
-        # all_games_scroll.setWidgetResizable(False)
-        # all_games_scroll.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        # all_games_scroll.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-        #
-        #
-        # self.create_cart(popular_layout, "asdasd")
-        # self.create_cart(recently_layout, "ASDFDSAFSADF")
-        # self.create_cart(all_games_layout, "1")
-        # self.create_cart(all_games_layout, "1")
-        # self.create_cart(all_games_layout, "1")
-        # self.create_cart(all_games_layout, "1")
-        # self.create_cart(all_games_layout, "1")
-        # self.create_cart(all_games_layout, "1")
+        # ============================
 
-    def create_cart(self, layout, name):
+        self.popular_widget = QtWidgets.QWidget()
+        self.popular_layout = QHBoxLayout(self.popular_widget)
+        self.popular_scroll = QScrollArea()
+
+        for i in range(10):
+            self.create_cart(self.popular_layout, "1")
+
+        self.rightLayout.addWidget(self.popular_scroll)
+        self.popular_scroll.setWidget(self.popular_widget)  # must be after add to cart
+        self.popular_scroll.setStyleSheet("background: #555555")
+
+        # =============================
+
+        self.all_games_widget = QtWidgets.QWidget()
+        self.all_games_layout = QHBoxLayout(self.all_games_widget)
+        self.all_games_scroll = QScrollArea()
+
+        for i in range(10):
+            self.create_cart(self.all_games_layout, "1") # add cart
+
+        self.rightLayout.addWidget(self.all_games_scroll)
+        self.all_games_scroll.setWidget(self.all_games_widget)  # must be after add to cart
+        self.all_games_scroll.setStyleSheet("background: #555555")
+
+
+
+    def create_cart(self, layout,  name):
         widget = QtWidgets.QWidget(self.rightwidget, objectName=name)
         widget.setStyleSheet("background-color: #bbbbbb")
         widget.setFixedWidth(200)
