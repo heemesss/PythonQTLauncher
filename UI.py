@@ -8,7 +8,7 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import QRect, QSize
-from PyQt6.QtWidgets import QLayout, QSpacerItem, QLabel, QTextEdit, QHBoxLayout, QScrollArea
+from PyQt6.QtWidgets import QLayout, QSpacerItem, QLabel, QTextEdit, QHBoxLayout, QScrollArea, QPushButton
 
 
 class Ui_MainWindow:
@@ -16,30 +16,54 @@ class Ui_MainWindow:
         # CONFIG WINDOW
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 700)
+
         MainWindow.setStyleSheet("""
-        .QLabel{
+        
+        QWidget{margin:0px; padding:0px;border-radius: 10px;  }
+        QVBoxLayout{margin:0px; padding:0px; spacing: 0px;}
+        QHBoxLayout{margin:0px; padding:0px; spacing: 0px;}
+        QWidget { margin: 0px; padding: 0px; spacing: 0px;}
+        #leftwidget {background-color: #D5E6FF}
+        QMainWindow {margin: 0px; padding: 0px; spacing: 0px;}
+        
+        QPushButton{
+        background-color: #5598FD;
+        radius: 12px;
         font-family: Anonymous Pro;
+        color: #ffffff;
 font-style: Regular;
 font-size: 14px;
-line-height: 100%;
 letter-spacing: 0%;
 }
-        .QLayout{margin:0; padding:0;}""")
+
+        QTextEdit{
+        background-color: #D5E6FF;
+        radius:50px}""")
 
         # CREATE
         ## Widgets
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow) # main widget
-        self.leftwidget = QtWidgets.QWidget(parent=self.centralwidget) # header widget
+        # self.centralwidget.setStyleSheet("background-color: green;")
+        self.leftwidget = QtWidgets.QWidget(parent=self.centralwidget, objectName="leftwidget") # header widget
         self.rightwidget = QtWidgets.QWidget(parent=self.centralwidget) # right widget
         self.headerwidget = QtWidgets.QWidget(parent=self.rightwidget) # header widget
         self.mainwidget = QtWidgets.QWidget(parent=self.rightwidget) # main widget
 
         ## Layouts
         self.centerLayout = QtWidgets.QHBoxLayout(self.centralwidget) # horizontalLayout in centralwidget
+        self.centerLayout.setContentsMargins(0, 0, 0, 0)
+
         self.leftLayout = QtWidgets.QVBoxLayout(self.leftwidget) # leftLayout in leftwidget
+        # self.leftLayout.setContentsMargins(0, 0, 0, 0)
+
         self.rightLayout = QtWidgets.QVBoxLayout(self.rightwidget) # rightLayout in mainwidget
+        self.rightLayout.setContentsMargins(0, 0, 0, 0)
+
         self.headerLayout = QtWidgets.QHBoxLayout(self.headerwidget) # headerLayout in headerwidget
+        # self.headerLayout.setContentsMargins(0, 0, 0, 0)
+
         self.mainLayout = QtWidgets.QHBoxLayout(self.mainwidget) # mainLayout in mainwidget
+        self.mainLayout.setContentsMargins(0, 0, 0, 0)
 
         # ADD TO LAYOUTS
         self.centerLayout.addWidget(self.leftwidget, 0) # left
@@ -53,7 +77,6 @@ letter-spacing: 0%;
         MainWindow.setCentralWidget(self.centralwidget)
 
     def headerwinget_config(self):
-        self.headerwidget.setStyleSheet("background-color: #aaaaaa") # header color
         self.headerwidget.setFixedHeight(50)
         # Search
         self.labelSearch = QTextEdit(self.headerwidget)
@@ -81,7 +104,6 @@ letter-spacing: 0%;
         self.headerLayout.addWidget(self.lavelAvatar)
 
     def leftwidget_config(self):
-        self.leftwidget.setStyleSheet("background-color: #D5E6FF")
         self.leftwidget.setFixedWidth(75)
 
         # Home
@@ -93,15 +115,15 @@ letter-spacing: 0%;
         self.leftLayout.addSpacerItem(spacer)
 
         # Games
-        self.labelGames = QLabel("Games", self.leftwidget)
+        self.labelGames = QPushButton("Games", self.leftwidget)
         self.leftLayout.addWidget(self.labelGames)
 
         # Studios
-        self.labelStudios = QLabel("Studios", self.leftwidget)
+        self.labelStudios = QPushButton("Studios", self.leftwidget)
         self.leftLayout.addWidget(self.labelStudios)
 
         # Friends
-        self.labelFriends = QLabel("Friends", self.leftwidget)
+        self.labelFriends = QPushButton("Friends", self.leftwidget)
         self.leftLayout.addWidget(self.labelFriends)
 
         # Spacer
@@ -117,11 +139,11 @@ letter-spacing: 0%;
         self.recently_scroll = QScrollArea()
 
         for i in range(10):
-            self.create_cart(self.recently_layout, "1")
+            self.create_card(self.recently_layout, "1")
 
         self.rightLayout.addWidget(self.recently_scroll)
         self.recently_scroll.setWidget(self.recently_widget) # must be after add to cart
-        self.recently_scroll.setStyleSheet("background: #555555")
+        self.recently_scroll.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
         # ============================
 
@@ -130,11 +152,11 @@ letter-spacing: 0%;
         self.popular_scroll = QScrollArea()
 
         for i in range(10):
-            self.create_cart(self.popular_layout, "1")
+            self.create_card(self.popular_layout, "1")
 
         self.rightLayout.addWidget(self.popular_scroll)
         self.popular_scroll.setWidget(self.popular_widget)  # must be after add to cart
-        self.popular_scroll.setStyleSheet("background: #555555")
+        self.popular_scroll.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
         # =============================
 
@@ -143,188 +165,17 @@ letter-spacing: 0%;
         self.all_games_scroll = QScrollArea()
 
         for i in range(10):
-            self.create_cart(self.all_games_layout, "1") # add cart
+            self.create_card(self.all_games_layout, "1") # add cart
 
         self.rightLayout.addWidget(self.all_games_scroll)
         self.all_games_scroll.setWidget(self.all_games_widget)  # must be after add to cart
-        self.all_games_scroll.setStyleSheet("background: #555555")
+        self.all_games_scroll.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
 
 
-    def create_cart(self, layout,  name):
+    def create_card(self, layout, name):
         widget = QtWidgets.QWidget(self.rightwidget, objectName=name)
         widget.setStyleSheet("background-color: #bbbbbb")
         widget.setFixedWidth(200)
         widget.setFixedHeight(100)
         layout.addWidget(widget)
-
-    # def main_config(self):
-
-        # CONFIG
-        # spacer = QSpacerItem(100, 100, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
-        # self.verticalLayout.addItem(spacer)
-
-        # self.horizontalLayout.setSpacing()
-
-
-#
-#         self.centralwidget.setObjectName("centralwidget")
-#         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-#         self.horizontalLayout.setSpacing(0)
-#         self.horizontalLayout.setObjectName("horizontalLayout")
-#         self.verticalLayout_2.setContentsMargins(15, 25, 15, 20)
-#         self.verticalLayout_2.setSpacing(10)
-#         self.verticalLayout_2.setObjectName("verticalLayout_2")
-#         self.labelTitle.setFont(font)
-#         self.labelTitle.setStyleSheet("color: #000000;\n"
-# "padding-bottom: 10px;\n"
-# "border-bottom: 1px solid #404040;")
-#         self.labelTitle.setObjectName("labelTitle")
-#         self.verticalLayout_2.addWidget(self.labelTitle)
-#         spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-#         self.verticalLayout_2.addItem(spacerItem)
-#         self.btnGames = QtWidgets.QPushButton(parent=self.centralwidget)
-#         font = QtGui.QFont()
-#         font.setPointSize(12)
-#         self.btnGames.setFont(font)
-#         self.btnGames.setStyleSheet("QPushButton {\n"
-# "    color: #000000;\n"
-# "    text-align: left;\n"
-# "    padding: 12px 15px;\n"
-# "    border: none;\n"
-# "    background-color: transparent;\n"
-# "    border-left: 3px solid transparent;\n"
-# "}\n"
-# "QPushButton:hover {\n"
-# "    background-color: #3a3a3a;\n"
-# "    border-left: 3px solid #4CAF50;\n"
-# "}\n"
-# "QPushButton:checked {\n"
-# "    background-color: #3a3a3a;\n"
-# "    border-left: 3px solid #4CAF50;\n"
-# "}")
-#         self.btnGames.setCheckable(True)
-#         self.btnGames.setChecked(True)
-#         self.btnGames.setObjectName("btnGames")
-#         self.verticalLayout_2.addWidget(self.btnGames)
-#         self.btnWeapons = QtWidgets.QPushButton(parent=self.centralwidget)
-#         self.btnWeapons.setFont(font)
-#         self.btnWeapons.setStyleSheet("QPushButton {\n"
-# "    color: #000000;\n"
-# "text-align: left;\n"
-# "    padding: 12px 15px;\n"
-# "    border: none;\n"
-# "    background-color: transparent;\n"
-# "    border-left: 3px solid transparent;\n"
-# "}\n"
-# "QPushButton:hover {\n"
-# "    background-color: #3a3a3a;\n"
-# "    border-left: 3px solid #4CAF50;\n"
-# "}\n"
-# "QPushButton:checked {\n"
-# "    background-color: #3a3a3a;\n"
-# "    border-left: 3px solid #4CAF50;\n"
-# "}")
-#         self.btnWeapons.setCheckable(True)
-#         self.btnWeapons.setObjectName("btnWeapons")
-#         self.verticalLayout_2.addWidget(self.btnWeapons)
-#         self.btnFriends = QtWidgets.QPushButton(parent=self.centralwidget)
-#         font = QtGui.QFont()
-#         font.setPointSize(12)
-#         self.btnFriends.setFont(font)
-#         self.btnFriends.setStyleSheet("QPushButton {\n"
-# "    color: #000000;\n"
-# "    text-align: left;\n"
-# "    padding: 12px 15px;\n"
-# "    border: none;\n"
-# "    background-color: transparent;\n"
-# "    border-left: 3px solid transparent;\n"
-# "}\n"
-# "QPushButton:hover {\n"
-# "    background-color: #3a3a3a;\n"
-# "    border-left: 3px solid #4CAF50;\n"
-# "}\n"
-# "QPushButton:checked {\n"
-# "    background-color: #3a3a3a;\n"
-# "    border-left: 3px solid #4CAF50;\n"
-# "}")
-#         self.btnFriends.setCheckable(True)
-#         self.btnFriends.setObjectName("btnFriends")
-#         self.verticalLayout_2.addWidget(self.btnFriends)
-#         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-#         self.verticalLayout_2.addItem(spacerItem1)
-#         self.labelRecent = QtWidgets.QLabel(parent=self.centralwidget)
-#         font = QtGui.QFont()
-#         font.setPointSize(11)
-#         font.setBold(False)
-#         self.labelRecent.setFont(font)
-#         self.labelRecent.setStyleSheet("color: #888888;\n"
-# "padding: 5px 15px;")
-#         self.labelRecent.setObjectName("labelRecent")
-#         self.verticalLayout_2.addWidget(self.labelRecent)
-#         self.labelPopular = QtWidgets.QLabel(parent=self.centralwidget)
-#         font = QtGui.QFont()
-#         font.setPointSize(11)
-#         self.labelPopular.setFont(font)
-#         self.labelPopular.setStyleSheet("color: #888888;\n"
-# "padding: 5px 15px;")
-#         self.labelPopular.setObjectName("labelPopular")
-#         self.verticalLayout_2.addWidget(self.labelPopular)
-#         self.labelGames = QtWidgets.QLabel(parent=self.centralwidget)
-#         font = QtGui.QFont()
-#         font.setPointSize(11)
-#         self.labelGames.setFont(font)
-#         self.labelGames.setStyleSheet("color: #888888;\n"
-# "padding: 5px 15px;")
-#         self.labelGames.setObjectName("labelGames")
-#         self.verticalLayout_2.addWidget(self.labelGames)
-#         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-#         self.verticalLayout_2.addItem(spacerItem2)
-#         self.horizontalLayout.addLayout(self.verticalLayout_2)
-#         self.verticalLayout = QtWidgets.QVBoxLayout()
-#         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-#         self.verticalLayout.setSpacing(0)
-#         self.verticalLayout.setObjectName("verticalLayout")
-#         self.scrollArea = QtWidgets.QScrollArea(parent=self.centralwidget)
-#         self.scrollArea.setStyleSheet("border: none;\n"
-# "background-color: transparent;")
-#         self.scrollArea.setWidgetResizable(True)
-#         self.scrollArea.setObjectName("scrollArea")
-#         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-#         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 778, 698))
-#         self.scrollAreaWidgetContents.setStyleSheet("background-color: transparent;")
-#         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-#         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
-#         self.verticalLayout_3.setContentsMargins(20, 20, 20, 20)
-#         self.verticalLayout_3.setSpacing(15)
-#         self.verticalLayout_3.setObjectName("verticalLayout_3")
-#         self.labelContent = QtWidgets.QLabel(parent=self.scrollAreaWidgetContents)
-#         font = QtGui.QFont()
-#         font.setPointSize(14)
-#         self.labelContent.setFont(font)
-#         self.labelContent.setStyleSheet("color: #000000;\n"
-# "padding: 20px;")
-#         self.labelContent.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-#         self.labelContent.setObjectName("labelContent")
-#         self.verticalLayout_3.addWidget(self.labelContent)
-#         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-#         self.verticalLayout_3.addItem(spacerItem3)
-#         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-#         self.verticalLayout.addWidget(self.scrollArea)
-#         self.horizontalLayout.addLayout(self.verticalLayout)
-#         MainWindow.setCentralWidget(self.centralwidget)
-#
-#         self.retranslateUi(MainWindow)
-#         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-#
-#     def retranslateUi(self, MainWindow):
-#         _translate = QtCore.QCoreApplication.translate
-#         MainWindow.setWindowTitle(_translate("MainWindow", "Game Launcher"))
-#         self.labelTitle.setText(_translate("MainWindow", "Подпись"))
-#         self.btnGames.setText(_translate("MainWindow", "Игры"))
-#         self.btnWeapons.setText(_translate("MainWindow", "Оружие"))
-#         self.btnFriends.setText(_translate("MainWindow", "Друзья"))
-#         self.labelRecent.setText(_translate("MainWindow", "Недавние:"))
-#         self.labelPopular.setText(_translate("MainWindow", "Популярные:"))
-#         self.labelGames.setText(_translate("MainWindow", "Игры:"))
-#         self.labelContent.setText(_translate("MainWindow", "Выберите раздел в боковом меню для просмотра содержимого"))
