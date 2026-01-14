@@ -87,6 +87,13 @@ letter-spacing: 0%;
         spacer = QSpacerItem(0, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.headerLayout.addSpacerItem(spacer)
 
+        self.startButton = QPushButton("НАЧАТЬ", self.headerwidget)
+        self.headerLayout.addWidget(self.startButton)
+
+        self.labelServer = QTextEdit(self.headerwidget)
+        self.labelServer.setText("mc.migosmc.net")
+        self.headerLayout.addWidget(self.labelServer)
+
         # Money
         self.labelMoney = QLabel("Balance: 10000", self.headerwidget)
         self.headerLayout.addWidget(self.labelMoney)
