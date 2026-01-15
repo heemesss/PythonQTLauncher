@@ -1,34 +1,35 @@
-import minecraft_launcher_lib as mll
-import subprocess
 import os
-from urllib import request
+import subprocess
+import urllib
+import uuid
+
+import minecraft_launcher_lib as mll
 
 
 def download():
     # Определение пути по умолчанию для Minecraft директории
     path = mll.utils.get_minecraft_directory()
-    version = "1.19.1"
+    version = "1.21.4"
 
     # Скачиваем authlib-injector.jar
     mll.install.install_minecraft_version(version=version, minecraft_directory=path)
-    auth = request.urlretrieve("https://authlib-injector.yushi.moe/artifact/55/authlib-injector-1.2.7.jar",
+    auth = urllib.request.urlretrieve("https://authlib-injector.yushi.moe/artifact/55/authlib-injector-1.2.7.jar",
                                "authlib-injector.jar")
     # Версия игры
 
-    # Имя игрока
-    nickname = "Guid"
-
+    # with open(path + "")
     options = {
-        "accessToken": "",
-        "clientToken": "",
-        "uuid": "",  # Добавлено поле UUID
-        "username": nickname,
+        "uuid": uuid.uuid4().hex,  # Добавлено поле UUID
+        "username": "Guid",
+        "token": "",
         "jvmArguments": [
-            f"-javaagent:authlib-injector.jar=ely.by"  # Полный путь к файлу агента
+            f"-javaagent:authlib-injector.jar=ely.by",  # Полный путь к файлу агента
+            "-Xmx2G"
         ],
         "executablePath": mll.utils.get_java_executable(),  # Исполняемый файл Java
-        "server": "mc.migosmc.net",  # Сервер, на который подключаемся
-        "minecraftDirectory": path   # Директория Minecraft
+        # "server": "mc.MigosMc.net",  # Сервер, на который подключаемся
+        "minecraftDirectory": path,   # Директория Minecraft
+        "quickPlayMultiplayer": "mc.MigosMc.net"
     }
 
 
@@ -48,6 +49,8 @@ def start():
         os.remove("authlib-injector.jar")
         os.remove("authlib-injector.log")
     except Exception as e:
+        # os.remove("authlib-injector.jar")
+        # os.remove("authlib-injector.log")
         print(f"Произошла ошибка: {e}")
 
 # Запуск игры
