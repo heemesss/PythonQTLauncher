@@ -7,12 +7,15 @@ import minecraft_launcher_lib as mll
 
 
 def download():
+    global command
     # Определение пути по умолчанию для Minecraft директории
     path = mll.utils.get_minecraft_directory()
+    print("Current path: " + path)
     version = "1.21.4"
+    print("Current version: " + version)
 
     # Скачиваем authlib-injector.jar
-    mll.install.install_minecraft_version(version=version, minecraft_directory=path)
+    print("Download authlib-injector.jar...")
     auth = urllib.request.urlretrieve("https://authlib-injector.yushi.moe/artifact/55/authlib-injector-1.2.7.jar",
                                "authlib-injector.jar")
     # Версия игры
@@ -24,7 +27,6 @@ def download():
         "token": "",
         "jvmArguments": [
             f"-javaagent:authlib-injector.jar=ely.by",  # Полный путь к файлу агента
-            "-Xmx2G"
         ],
         "executablePath": mll.utils.get_java_executable(),  # Исполняемый файл Java
         # "server": "mc.MigosMc.net",  # Сервер, на который подключаемся
@@ -34,23 +36,23 @@ def download():
 
 
 
+    print("Check minecraft version...")
     mll.install.install_minecraft_version(version=version, minecraft_directory=path)
+    print("Download!")
     # Получение команды для запуска Minecraft
     command = mll.command.get_minecraft_command(version=version, minecraft_directory=path, options=options)
     return command
 
 
+command = None
+
+
 # Функция запуска Minecraft
 def start():
-    command = download()
     try:
         print("Запускаю сервер...")
         subprocess.run(command)
-        os.remove("authlib-injector.jar")
-        os.remove("authlib-injector.log")
     except Exception as e:
-        # os.remove("authlib-injector.jar")
-        # os.remove("authlib-injector.log")
         print(f"Произошла ошибка: {e}")
 
 # Запуск игры

@@ -129,6 +129,8 @@ letter-spacing: 0%;
         self.leftLayout.addSpacerItem(spacer)
 
         # Settings
+        self.buttonSettings = QPushButton(self.leftwidget)
+        self.leftLayout.addWidget(self.buttonSettings)
         self.labelSettings = QLabel("Settings", self.leftwidget)
         self.leftLayout.addWidget(self.labelSettings)
 
