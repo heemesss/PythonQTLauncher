@@ -4,7 +4,7 @@ from time import sleep
 from PyQt6 import QtWidgets, uic
 from UI import Ui_MainWindow
 
-from start_minecraft import start, download
+from start_minecraft import MCUtils
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -14,13 +14,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
         self.startButton.clicked.connect(startMC)
-        # uic.loadUi('example.ui', self)
 
 
 def startMC():
-    download()
+    mc = MCUtils()
+    mc.download()
     window.hide()
-    start()
+    mc.start()
     window.show()
 
 
