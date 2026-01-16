@@ -1,7 +1,7 @@
 import sys
 from time import sleep
 
-from PyQt6 import QtWidgets, uic
+from PyQt6 import QtWidgets
 from UI import Ui_MainWindow
 
 from start_minecraft import MCUtils
