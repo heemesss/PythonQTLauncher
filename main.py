@@ -1,5 +1,4 @@
 import sys
-from time import sleep
 
 from PyQt6 import QtWidgets
 from UI import Ui_MainWindow
